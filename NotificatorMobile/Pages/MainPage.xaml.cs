@@ -1,24 +1,21 @@
-﻿namespace NotificatorMobile.Pages
+﻿using CommunityToolkit.Maui.Markup;
+using NotificatorMobile.ViewModels;
+
+namespace NotificatorMobile.Pages
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
+        private readonly MainViewModel _viewModel = new();
 
         public MainPage()
         {
-            InitializeComponent();
-        }
-
-        private void OnCounterClicked(object sender, EventArgs e)
-        {
-            count++;
-
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
-
-            SemanticScreenReader.Announce(CounterBtn.Text);
+            Content = new ScrollView
+            {
+                Content = new Label()
+                    .Text(_viewModel.LabelText)
+                    .Center()
+                    .FontSize(24)
+            }.BackgroundColor(Colors.Snow);
         }
     }
 

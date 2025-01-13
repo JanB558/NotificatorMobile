@@ -1,4 +1,4 @@
-﻿namespace NotificatorMobile
+﻿namespace NotificatorMobile.Pages
 {
     public partial class MainPage : ContentPage
     {

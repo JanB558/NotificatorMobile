@@ -13,10 +13,18 @@ namespace NotificatorMobile.ViewModels
 #pragma warning disable MVVMTK0045 //silence warnings that it won't work on windows, this is not windows app
 
     [INotifyPropertyChanged]
-    public partial class MainViewModel
+    public partial class AddNotificationViewModel
     {
         [ObservableProperty]
-        private string _labelText = "test";
+        private string _title = string.Empty;
+        [ObservableProperty]
+        private string _description = string.Empty;
+        [ObservableProperty]
+        private DateTime _date;
+        [ObservableProperty]
+        private DateTime hour;
+        [ObservableProperty]
+        private bool _isRecurring;
     }
 
 #pragma warning restore

@@ -10,6 +10,12 @@ namespace NotificatorMobile.Pages
 
         public MainPage()
         {
+            //declarations
+            var buttonCorner = new Button();
+            buttonCorner.Clicked += OnNewNotificationButtonClicked;
+            buttonCorner.CornerRadius = 50;
+
+            //content
             Content = new AbsoluteLayout
             {
                 Children =
@@ -24,9 +30,15 @@ namespace NotificatorMobile.Pages
                             }
                         }
                     },
-                    new Button().Text("+").Anchor(1, 1).LayoutBounds(0.95, 0.95, -1, -1).LayoutFlags(AbsoluteLayoutFlags.PositionProportional)
+                    buttonCorner.Text("New notification")
+                    .LayoutBounds(1, 1, -1, -1).LayoutFlags(AbsoluteLayoutFlags.PositionProportional)
                 }
-            }.BackgroundColor(Colors.Snow);
+            }.BackgroundColor(Colors.Snow).Margin(20);
+        }
+
+        private async void OnNewNotificationButtonClicked(object? sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new AddNotificationPage());
         }
     }
 }

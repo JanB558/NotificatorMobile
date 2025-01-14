@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Windows.Input;
 
 namespace NotificatorMobile.ViewModels
 {
@@ -16,15 +18,28 @@ namespace NotificatorMobile.ViewModels
     public partial class AddNotificationViewModel
     {
         [ObservableProperty]
-        private string _title = string.Empty;
+        private string title = string.Empty;
         [ObservableProperty]
-        private string _description = string.Empty;
+        private string description = string.Empty;
         [ObservableProperty]
-        private DateTime _date;
+        private DateTime date;
         [ObservableProperty]
         private DateTime hour;
         [ObservableProperty]
-        private bool _isRecurring;
+        private bool isRecurring;
+
+        public ICommand ConfirmCommand { get; }
+
+        public AddNotificationViewModel()
+        {
+            ConfirmCommand = new Command(Confirm);
+        }
+
+        public void Confirm()
+        {
+            Debug.WriteLine("Button clicked");
+            Debug.WriteLine($"{Title} {Description} {Date} {Hour} {IsRecurring}");
+        }
     }
 
 #pragma warning restore

@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui.Markup;
+using Microsoft.Maui.Layouts;
 using NotificatorMobile.ViewModels;
 
 namespace NotificatorMobile.Pages
@@ -9,14 +10,23 @@ namespace NotificatorMobile.Pages
 
         public MainPage()
         {
-            Content = new ScrollView
+            Content = new AbsoluteLayout
             {
-                Content = new Label()
-                    .Text(_viewModel.LabelText)
-                    .Center()
-                    .FontSize(24)
+                Children =
+                {
+                    new ScrollView
+                    {
+                        Content = new StackLayout
+                        {
+                            Children =
+                            {
+                                new Label().Text(_viewModel.LabelText).FontSize(24).CenterHorizontal()
+                            }
+                        }
+                    },
+                    new Button().Text("+").Anchor(1, 1).LayoutBounds(0.95, 0.95, -1, -1).LayoutFlags(AbsoluteLayoutFlags.PositionProportional)
+                }
             }.BackgroundColor(Colors.Snow);
         }
     }
-
 }

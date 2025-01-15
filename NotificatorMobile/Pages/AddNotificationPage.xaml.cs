@@ -14,11 +14,11 @@ public partial class AddNotificationPage : ContentPage
         BindingContext = viewModel;
 
         //declarations
+        var errorConverter = new ShowErrorConverter();
         var buttonConfirm = new Button();
         buttonConfirm.CornerRadius = 50;
         var datePicker = new DatePicker();
         datePicker.MinimumDate = DateTime.Today;
-        var titleEntry = new Entry();
 
         //content
         Content = new StackLayout
@@ -28,10 +28,14 @@ public partial class AddNotificationPage : ContentPage
                 new Label().Text("Title:").CenterVertical().FontSize(18),
                 new Entry().CenterVertical().FontSize(14)
                     .Bind(Entry.TextProperty, nameof(viewModel.Title)),
+                new Label().CenterVertical().FontSize(14).TextColor(Microsoft.Maui.Graphics.Colors.Red)
+                    .Bind(Label.TextProperty, nameof(viewModel.TitleError)),
 
                 new Label().Text("Description:").CenterVertical().FontSize(18),
                 new Editor().CenterVertical().FontSize(14)
                     .Bind(Entry.TextProperty, nameof(viewModel.Description)),
+                new Label().CenterVertical().FontSize(14).TextColor(Microsoft.Maui.Graphics.Colors.Red)
+                    .Bind(Label.TextProperty, nameof(viewModel.DescriptionError)),
 
                 new Label().Text("Date").CenterVertical().FontSize(18),
                 datePicker.CenterVertical().FontSize(12)

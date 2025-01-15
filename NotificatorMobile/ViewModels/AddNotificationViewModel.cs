@@ -25,9 +25,10 @@ namespace NotificatorMobile.ViewModels
         [ObservableProperty]
         private bool isRecurring;
 
-        //public string? TitleError => GetErrors(nameof(Title))?.Cast<ValidationResult>().FirstOrDefault()?.ErrorMessage;
-        //public string? DescriptionError => GetErrors(nameof(Description))?.Cast<ValidationResult>().FirstOrDefault()?.ErrorMessage;
-        //public string? TimeError => GetErrors(nameof(Time))?.Cast<ValidationResult>().FirstOrDefault()?.ErrorMessage;
+        [ObservableProperty]
+        private string? titleError;
+        [ObservableProperty]
+        public string? descriptionError;
         [ObservableProperty]
         private ValidationResult? validationResult;
 
@@ -44,11 +45,19 @@ namespace NotificatorMobile.ViewModels
             ValidationResult = await validator.ValidateAsync(this);
             if (!ValidationResult.IsValid)
             {
+                ApplyErrors();
+                Debug.WriteLine($"Error - {TitleError}");
                 Debug.WriteLine("VALIDATION FAILED");
                 return;
             }
             Debug.WriteLine("VALIDATION SUCCESS");
             Debug.WriteLine($"{Title} {Description} {Date} {Time} {IsRecurring}");
+        }
+
+        private void ApplyErrors()
+        {
+            TitleError = ValidationResult?.Errors.FirstOrDefault(x => x.PropertyName == nameof(Title))?.ErrorMessage;
+            DescriptionError = ValidationResult?.Errors.FirstOrDefault(x => x.PropertyName == nameof(Description))?.ErrorMessage;
         }
     }
 

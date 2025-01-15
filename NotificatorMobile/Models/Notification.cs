@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NotificatorMobile.Models
 {
-    internal class Notification
+    public class Notification
     {
         public Guid Id { get; set; }
         public required string Title { get; set; }

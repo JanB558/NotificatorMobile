@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Windows.Input;
 using NotificatorMobile.Validation;
 using FluentValidation.Results;
+using NotificatorMobile.Services;
 
 namespace NotificatorMobile.ViewModels
 {
@@ -15,29 +16,32 @@ namespace NotificatorMobile.ViewModels
     public partial class AddNotificationViewModel
     {
         [ObservableProperty]
-        private string title = string.Empty;
+        private string _title = string.Empty;
         [ObservableProperty]
-        private string description = string.Empty;
+        private string _description = string.Empty;
         [ObservableProperty]
-        private DateTime date = DateTime.Today;
+        private DateTime _date = DateTime.Today;
         [ObservableProperty]
-        private TimeSpan time;
+        private TimeSpan _time;
         [ObservableProperty]
-        private bool isRecurring;
+        private bool _isRecurring;
 
         [ObservableProperty]
-        private string? titleError;
+        private string? _titleError;
         [ObservableProperty]
-        public string? descriptionError;
+        public string? _descriptionError;
         [ObservableProperty]
-        public string? timeError;
+        public string? _timeError;
         [ObservableProperty]
-        private ValidationResult? validationResult;
+        private ValidationResult? _validationResult;
 
         public ICommand ConfirmCommand { get; }
 
-        public AddNotificationViewModel()
+        private INotificationService _notificationService;
+
+        public AddNotificationViewModel(INotificationService notificationService)
         {
+            _notificationService = notificationService;
             ConfirmCommand = new Command(async (object o) => await Confirm());
         }
 
@@ -53,11 +57,17 @@ namespace NotificatorMobile.ViewModels
             if (!ValidationResult.IsValid)
             {
                 ApplyErrors();
-                Debug.WriteLine($"Error - {TimeError}");
                 Debug.WriteLine("VALIDATION FAILED");
                 return;
             }
             Debug.WriteLine("VALIDATION SUCCESS");
+            await _notificationService.Create(new Models.Notification
+            {
+                Title = Title,
+                Description = Description,
+                TimeAndDate = Date.Date.Add(Time),
+                IsRecurring = IsRecurring,
+            });
             ClearErrors();          
         }
 

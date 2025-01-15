@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NotificatorMobile.Services
 {
-    internal interface INotificationService
+    public interface INotificationService
     {
         Task<IEnumerable<Notification>?> GetAll();
         Task<Notification?> GetById(Guid id);

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace NotificatorMobile.Services
 {
-    internal class NotificationService : INotificationService
+    public class NotificationService : INotificationService
     {
         private readonly LiteDatabase _database;
         private readonly ILiteCollection<Notification> _notificationCollection;

@@ -7,7 +7,7 @@ namespace NotificatorMobile.Pages;
 
 public partial class AddNotificationPage : ContentPage
 {
-    private readonly AddNotificationViewModel ViewModel = new();
+    private readonly AddNotificationViewModel viewModel = new();
     private enum Row 
     { 
         LabelTitle, InputTitle, LabelDescription, InputDescription, 
@@ -17,12 +17,15 @@ public partial class AddNotificationPage : ContentPage
     private enum Column { Main }
     public AddNotificationPage()
 	{
-        BindingContext = ViewModel;
+        BindingContext = viewModel;
 
-        var confirm = new Button();
-        //confirm.Clicked += OnConfirmButtonClicked;
-        confirm.CornerRadius = 50;
+        //declarations
+        var buttonConfirm = new Button();
+        buttonConfirm.CornerRadius = 50;
+        var datePicker = new DatePicker();
+        datePicker.MinimumDate = DateTime.Today;
 
+        //content
         Content = new Grid
         {
             RowDefinitions = Rows.Define(
@@ -44,32 +47,38 @@ public partial class AddNotificationPage : ContentPage
             {
                 new Label().Text("Title:").CenterVertical().FontSize(18)
                     .Row(Row.LabelTitle).Column(Column.Main),
-                new Entry().CenterVertical().FontSize(12)
-                    .Bind(Entry.TextProperty, nameof(ViewModel.Title))
+                new Entry().CenterVertical().FontSize(14)
+                    .Bind(Entry.TextProperty, nameof(viewModel.Title))
                     .Row(Row.InputTitle).Column(Column.Main),
+
                 new Label().Text("Description:").CenterVertical().FontSize(18)
                     .Row(Row.LabelDescription).Column(Column.Main),
-                new Editor().CenterVertical().FontSize(12)
+                new Editor().CenterVertical().FontSize(14)
+                    .Bind(Entry.TextProperty, nameof(viewModel.Description))
                     .Row(Row.InputDescription).Column(Column.Main),
+
                 new Label().Text("Date").CenterVertical().FontSize(18)
                     .Row(Row.LabelDate).Column(Column.Main),
-                new Entry().CenterVertical().FontSize(12)
+                datePicker.CenterVertical().FontSize(12)
+                    .Bind(DatePicker.DateProperty, nameof(viewModel.Date))
                     .Row(Row.InputDate).Column(Column.Main),
+
                 new Label().Text("Time").CenterVertical().FontSize(18)
                     .Row(Row.LabelTime).Column(Column.Main),
-                new Entry().CenterVertical().FontSize(12)
+                new TimePicker().CenterVertical().FontSize(12)
+                    .Bind(TimePicker.TimeProperty, nameof(viewModel.Time))
                     .Row(Row.InputTime).Column(Column.Main),
+
                 new Label().Text("Recurring").CenterVertical().FontSize(18)
                     .Row(Row.LabelRecurring).Column(Column.Main),
-                new Switch().Row(Row.InputRecurring).Column(Column.Main),
-                confirm.Text("Confirm").Bind(Button.CommandProperty, nameof(ViewModel.ConfirmCommand))
+                new Switch().Left().CenterVertical()
+                    .Bind(Switch.IsToggledProperty, nameof(viewModel.IsRecurring))
+                    .Row(Row.InputRecurring).Column(Column.Main),
+
+                buttonConfirm.Text("Confirm").CenterVertical()
+                    .Bind(Button.CommandProperty, nameof(viewModel.ConfirmCommand))
                     .Row(Row.Button).Column(Column.Main)
             }        
         }.BackgroundColor(Colors.Snow).Margin(20);
-    }
-
-    private void OnConfirmButtonClicked(object? sender, EventArgs e)
-    {
-        ViewModel.Confirm();
     }
 }

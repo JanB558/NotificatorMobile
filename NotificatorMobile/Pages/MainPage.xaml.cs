@@ -6,10 +6,11 @@ namespace NotificatorMobile.Pages
 {
     public partial class MainPage : ContentPage
     {
-        private readonly MainViewModel _viewModel = new();
+        private readonly MainViewModel viewModel = new();
 
         public MainPage()
         {
+            BindingContext = viewModel;
             //declarations
             var buttonCorner = new Button();
             buttonCorner.Clicked += OnNewNotificationButtonClicked;
@@ -26,7 +27,7 @@ namespace NotificatorMobile.Pages
                         {
                             Children =
                             {
-                                new Label().Text(_viewModel.LabelText).FontSize(24).CenterHorizontal()
+                                new Label().Text(viewModel.LabelText).FontSize(24).CenterHorizontal()
                             }
                         }
                     },

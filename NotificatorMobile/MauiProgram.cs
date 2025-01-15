@@ -26,7 +26,9 @@ namespace NotificatorMobile
             builder.Services.AddTransient<MainPage>();
             builder.Services.AddTransient<AddNotificationPage>();
             //db
-            builder.Services.AddSingleton<INotificationService, NotificationService>();
+            builder.Services.AddSingleton<INotificationService>
+                (provider => new NotificationService
+                (Path.Combine(FileSystem.AppDataDirectory, "ndb.db"), "notifications"));
 
             return builder.Build();
         }

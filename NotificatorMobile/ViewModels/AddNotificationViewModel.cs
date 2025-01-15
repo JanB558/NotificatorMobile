@@ -36,6 +36,7 @@ namespace NotificatorMobile.ViewModels
 
         public string? TitleError => GetErrors(nameof(Title))?.Cast<ValidationResult>().FirstOrDefault()?.ErrorMessage;
         public string? DescriptionError => GetErrors(nameof(Description))?.Cast<ValidationResult>().FirstOrDefault()?.ErrorMessage;
+        public string? TimeError => GetErrors(nameof(Time))?.Cast<ValidationResult>().FirstOrDefault()?.ErrorMessage;
 
         public ICommand ConfirmCommand { get; }
 
@@ -47,7 +48,9 @@ namespace NotificatorMobile.ViewModels
         public void Confirm()
         {
             ValidateAllProperties();
-            OnPropertyChanged(nameof(TitleError)); OnPropertyChanged(nameof(DescriptionError)); 
+            OnPropertyChanged(nameof(TitleError)); 
+            OnPropertyChanged(nameof(DescriptionError)); 
+            OnPropertyChanged(nameof(TimeError));
 
             if (HasErrors) Debug.WriteLine("Validation Failed"); else Debug.WriteLine("Validation Success");
             Debug.WriteLine($"{Title} {Description} {Date} {Time} {IsRecurring}");

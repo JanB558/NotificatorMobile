@@ -17,7 +17,7 @@ namespace NotificatorMobile.ViewModels
     public partial class MainViewModel
     {
         [ObservableProperty]
-        private string _labelText = "test";
+        private string _noContent = "There is nothing to show.";
 
         private readonly INotificationService _notificationService;
         public MainViewModel(INotificationService notificationService)

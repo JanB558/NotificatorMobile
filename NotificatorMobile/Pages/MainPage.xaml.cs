@@ -32,7 +32,7 @@ namespace NotificatorMobile.Pages
                         {
                             Children =
                             {
-                                new Label().Text(_viewModel.LabelText).FontSize(24).CenterHorizontal()
+                                new Label().Text(_viewModel.NoContent).FontSize(24).Center()
                             }
                         }
                     },

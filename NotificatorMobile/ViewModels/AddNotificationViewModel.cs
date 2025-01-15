@@ -37,7 +37,7 @@ namespace NotificatorMobile.ViewModels
 
         public ICommand ConfirmCommand { get; }
 
-        private INotificationService _notificationService;
+        private readonly INotificationService _notificationService;
 
         public AddNotificationViewModel(INotificationService notificationService)
         {

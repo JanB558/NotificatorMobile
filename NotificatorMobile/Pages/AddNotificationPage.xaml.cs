@@ -1,6 +1,7 @@
 using CommunityToolkit.Maui.Markup;
 using CommunityToolkit.Maui.Markup.LeftToRight;
 using NotificatorMobile.Converters;
+using NotificatorMobile.Services;
 using NotificatorMobile.ViewModels;
 using static CommunityToolkit.Maui.Markup.GridRowsColumns;
 
@@ -8,10 +9,11 @@ namespace NotificatorMobile.Pages;
 
 public partial class AddNotificationPage : ContentPage
 {
-    private readonly AddNotificationViewModel viewModel = new();
-    public AddNotificationPage()
+    private readonly AddNotificationViewModel _viewModel;
+    public AddNotificationPage(INotificationService notificationService)
 	{
-        BindingContext = viewModel;
+        _viewModel = new AddNotificationViewModel(notificationService);
+        BindingContext = _viewModel;
 
         //declarations
         var buttonConfirm = new Button();
@@ -26,32 +28,32 @@ public partial class AddNotificationPage : ContentPage
             {
                 new Label().Text("Title").CenterVertical().FontSize(18),
                 new Entry().CenterVertical().FontSize(14)
-                    .Bind(Entry.TextProperty, nameof(viewModel.Title)),
+                    .Bind(Entry.TextProperty, nameof(_viewModel.Title)),
                 new Label().CenterVertical().FontSize(14).TextColor(Microsoft.Maui.Graphics.Colors.Red)
-                    .Bind(Label.TextProperty, nameof(viewModel.TitleError)),
+                    .Bind(Label.TextProperty, nameof(_viewModel.TitleError)),
 
                 new Label().Text("Description").CenterVertical().FontSize(18),
                 new Editor().CenterVertical().FontSize(14)
-                    .Bind(Entry.TextProperty, nameof(viewModel.Description)),
+                    .Bind(Entry.TextProperty, nameof(_viewModel.Description)),
                 new Label().CenterVertical().FontSize(14).TextColor(Microsoft.Maui.Graphics.Colors.Red)
-                    .Bind(Label.TextProperty, nameof(viewModel.DescriptionError)),
+                    .Bind(Label.TextProperty, nameof(_viewModel.DescriptionError)),
 
                 new Label().Text("Date").CenterVertical().FontSize(18),
                 datePicker.CenterVertical().FontSize(12)
-                    .Bind(DatePicker.DateProperty, nameof(viewModel.Date)),
+                    .Bind(DatePicker.DateProperty, nameof(_viewModel.Date)),
 
                 new Label().Text("Time").CenterVertical().FontSize(18),
                 new TimePicker().CenterVertical().FontSize(12)
-                    .Bind(TimePicker.TimeProperty, nameof(viewModel.Time)),
+                    .Bind(TimePicker.TimeProperty, nameof(_viewModel.Time)),
                 new Label().CenterVertical().FontSize(14).TextColor(Microsoft.Maui.Graphics.Colors.Red)
-                    .Bind(Label.TextProperty, nameof(viewModel.TimeError)),
+                    .Bind(Label.TextProperty, nameof(_viewModel.TimeError)),
 
                 new Label().Text("Recurring").CenterVertical().FontSize(18),
                 new Switch().Left().CenterVertical()
-                    .Bind(Switch.IsToggledProperty, nameof(viewModel.IsRecurring)),
+                    .Bind(Switch.IsToggledProperty, nameof(_viewModel.IsRecurring)),
 
                 buttonConfirm.Text("Confirm").CenterVertical()
-                    .Bind(Button.CommandProperty, nameof(viewModel.ConfirmCommand))
+                    .Bind(Button.CommandProperty, nameof(_viewModel.ConfirmCommand))
             }        
         }.BackgroundColor(Colors.Snow).Margin(20);
     }

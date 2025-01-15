@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui.Markup;
 using Microsoft.Extensions.Logging;
+using NotificatorMobile.Pages;
 using NotificatorMobile.Services;
 
 namespace NotificatorMobile
@@ -21,6 +22,9 @@ namespace NotificatorMobile
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
+            //pages
+            builder.Services.AddTransient<MainPage>();
+            builder.Services.AddTransient<AddNotificationPage>();
             //db
             builder.Services.AddSingleton<INotificationService, NotificationService>();
 

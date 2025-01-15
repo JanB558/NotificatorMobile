@@ -1,16 +1,21 @@
 ﻿using CommunityToolkit.Maui.Markup;
 using Microsoft.Maui.Layouts;
+using NotificatorMobile.Services;
 using NotificatorMobile.ViewModels;
 
 namespace NotificatorMobile.Pages
 {
     public partial class MainPage : ContentPage
     {
-        private readonly MainViewModel viewModel = new();
+        private readonly MainViewModel _viewModel;
+        private readonly IServiceProvider _serviceProvider;
 
-        public MainPage()
+        public MainPage(INotificationService notificationService, IServiceProvider serviceProvider)
         {
-            BindingContext = viewModel;
+            _serviceProvider = serviceProvider;
+            _viewModel = new MainViewModel(notificationService);
+            BindingContext = _viewModel;
+
             //declarations
             var buttonCorner = new Button();
             buttonCorner.Clicked += OnNewNotificationButtonClicked;
@@ -27,7 +32,7 @@ namespace NotificatorMobile.Pages
                         {
                             Children =
                             {
-                                new Label().Text(viewModel.LabelText).FontSize(24).CenterHorizontal()
+                                new Label().Text(_viewModel.LabelText).FontSize(24).CenterHorizontal()
                             }
                         }
                     },
@@ -39,7 +44,7 @@ namespace NotificatorMobile.Pages
 
         private async void OnNewNotificationButtonClicked(object? sender, EventArgs e)
         {
-            await Navigation.PushAsync(new AddNotificationPage());
+            await Navigation.PushAsync(_serviceProvider.GetRequiredService<AddNotificationPage>());
         }
     }
 }

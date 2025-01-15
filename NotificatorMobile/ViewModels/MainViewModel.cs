@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using NotificatorMobile.Services;
 
 namespace NotificatorMobile.ViewModels
 {
@@ -17,6 +18,12 @@ namespace NotificatorMobile.ViewModels
     {
         [ObservableProperty]
         private string _labelText = "test";
+
+        private readonly INotificationService _notificationService;
+        public MainViewModel(INotificationService notificationService)
+        {
+            _notificationService = notificationService;
+        }
     }
 
 #pragma warning restore

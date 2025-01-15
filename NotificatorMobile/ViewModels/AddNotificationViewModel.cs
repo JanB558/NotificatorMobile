@@ -23,6 +23,9 @@ namespace NotificatorMobile.ViewModels
         [MaxLength(30, ErrorMessage = "Title cannot be longer than {1} characters.")]
         private string title = string.Empty;
         [ObservableProperty]
+        [Required(ErrorMessage ="Description is required.")]
+        [MinLength(3, ErrorMessage = "Description must be at least {1} characters long.")]
+        [MaxLength(300, ErrorMessage = "Description cannot be longer than {1} characters.")]
         private string description = string.Empty;
         [ObservableProperty]
         private DateTime date;
@@ -30,6 +33,9 @@ namespace NotificatorMobile.ViewModels
         private TimeSpan time;
         [ObservableProperty]
         private bool isRecurring;
+
+        public string? TitleError => GetErrors(nameof(Title))?.Cast<ValidationResult>().FirstOrDefault()?.ErrorMessage;
+        public string? DescriptionError => GetErrors(nameof(Description))?.Cast<ValidationResult>().FirstOrDefault()?.ErrorMessage;
 
         public ICommand ConfirmCommand { get; }
 
@@ -41,7 +47,9 @@ namespace NotificatorMobile.ViewModels
         public void Confirm()
         {
             ValidateAllProperties();
-            Debug.WriteLine("Button clicked");
+            OnPropertyChanged(nameof(TitleError)); OnPropertyChanged(nameof(DescriptionError)); 
+
+            if (HasErrors) Debug.WriteLine("Validation Failed"); else Debug.WriteLine("Validation Success");
             Debug.WriteLine($"{Title} {Description} {Date} {Time} {IsRecurring}");
         }
     }

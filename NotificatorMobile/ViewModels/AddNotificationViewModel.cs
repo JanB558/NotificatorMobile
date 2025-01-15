@@ -19,7 +19,7 @@ namespace NotificatorMobile.ViewModels
         [ObservableProperty]
         private string description = string.Empty;
         [ObservableProperty]
-        private DateTime date;
+        private DateTime date = DateTime.Today;
         [ObservableProperty]
         private TimeSpan time;
         [ObservableProperty]
@@ -29,6 +29,8 @@ namespace NotificatorMobile.ViewModels
         private string? titleError;
         [ObservableProperty]
         public string? descriptionError;
+        [ObservableProperty]
+        public string? timeError;
         [ObservableProperty]
         private ValidationResult? validationResult;
 
@@ -41,23 +43,36 @@ namespace NotificatorMobile.ViewModels
 
         public async Task Confirm()
         {
+            Debug.WriteLine($"{Title} {Description} {Date} {Time} {IsRecurring}");
+            Debug.WriteLine($"Date {Date}");
+            Debug.WriteLine($"Time {Time}");
+            Debug.WriteLine($"Date + time {Date.Date + Time} vs now {DateTime.Now}");
+
             var validator = new AddNotificationPageValidator();
             ValidationResult = await validator.ValidateAsync(this);
             if (!ValidationResult.IsValid)
             {
                 ApplyErrors();
-                Debug.WriteLine($"Error - {TitleError}");
+                Debug.WriteLine($"Error - {TimeError}");
                 Debug.WriteLine("VALIDATION FAILED");
                 return;
             }
             Debug.WriteLine("VALIDATION SUCCESS");
-            Debug.WriteLine($"{Title} {Description} {Date} {Time} {IsRecurring}");
+            ClearErrors();          
         }
 
         private void ApplyErrors()
         {
             TitleError = ValidationResult?.Errors.FirstOrDefault(x => x.PropertyName == nameof(Title))?.ErrorMessage;
             DescriptionError = ValidationResult?.Errors.FirstOrDefault(x => x.PropertyName == nameof(Description))?.ErrorMessage;
+            TimeError = ValidationResult?.Errors.FirstOrDefault(x => x.PropertyName == nameof(Time))?.ErrorMessage;
+        }
+
+        private void ClearErrors()
+        {
+            TitleError = null;
+            DescriptionError = null;
+            TimeError = null;
         }
     }
 

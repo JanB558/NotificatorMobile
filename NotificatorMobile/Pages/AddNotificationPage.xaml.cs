@@ -14,7 +14,6 @@ public partial class AddNotificationPage : ContentPage
         BindingContext = viewModel;
 
         //declarations
-        var errorConverter = new ShowErrorConverter();
         var buttonConfirm = new Button();
         buttonConfirm.CornerRadius = 50;
         var datePicker = new DatePicker();
@@ -25,13 +24,13 @@ public partial class AddNotificationPage : ContentPage
         {
             Children = 
             {
-                new Label().Text("Title:").CenterVertical().FontSize(18),
+                new Label().Text("Title").CenterVertical().FontSize(18),
                 new Entry().CenterVertical().FontSize(14)
                     .Bind(Entry.TextProperty, nameof(viewModel.Title)),
                 new Label().CenterVertical().FontSize(14).TextColor(Microsoft.Maui.Graphics.Colors.Red)
                     .Bind(Label.TextProperty, nameof(viewModel.TitleError)),
 
-                new Label().Text("Description:").CenterVertical().FontSize(18),
+                new Label().Text("Description").CenterVertical().FontSize(18),
                 new Editor().CenterVertical().FontSize(14)
                     .Bind(Entry.TextProperty, nameof(viewModel.Description)),
                 new Label().CenterVertical().FontSize(14).TextColor(Microsoft.Maui.Graphics.Colors.Red)
@@ -44,6 +43,8 @@ public partial class AddNotificationPage : ContentPage
                 new Label().Text("Time").CenterVertical().FontSize(18),
                 new TimePicker().CenterVertical().FontSize(12)
                     .Bind(TimePicker.TimeProperty, nameof(viewModel.Time)),
+                new Label().CenterVertical().FontSize(14).TextColor(Microsoft.Maui.Graphics.Colors.Red)
+                    .Bind(Label.TextProperty, nameof(viewModel.TimeError)),
 
                 new Label().Text("Recurring").CenterVertical().FontSize(18),
                 new Switch().Left().CenterVertical()

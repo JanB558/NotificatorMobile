@@ -21,56 +21,6 @@ namespace NotificatorMobile.Pages
             _viewModel = new MainViewModel(notificationService);
             BindingContext = _viewModel;
 
-            //declarations
-
-            //    var descriptionLabel = new Label
-            //    {
-            //        FontSize = 14,
-            //        TextColor = Colors.Gray
-            //    };
-            //    descriptionLabel.SetBinding(Label.TextProperty, "Description");
-            //    var timeAndDateLabel = new Label
-            //    {
-            //        FontSize = 12,
-            //        TextColor = Colors.DarkGray
-            //    };
-            //    timeAndDateLabel.SetBinding(Label.TextProperty, new Binding("TimeAndDate", stringFormat: "{0:G}"));
-            //    var recurringLabel = new Label
-            //    {
-            //        FontSize = 12,
-            //        TextColor = Colors.DarkGray,
-            //        IsVisible = false, 
-            //        Text = "Recurring"
-            //    };
-            //    recurringLabel.SetBinding(Label.IsVisibleProperty, "IsRecurring");
-            //    var buttonDelete = new Button
-            //    {
-            //        Text = "Delete",
-            //        BackgroundColor = Colors.Red,
-            //        TextColor = Colors.White,
-            //        Padding = 5,
-            //        FontSize = 12,
-            //    };
-            //    buttonDelete.Clicked += async (sender, e) =>
-            //    {
-            //        if (sender is Button btn && btn.BindingContext is Notification notification)
-            //        {
-            //            await _viewModel.Delete(notification.Id);
-            //            await _viewModel.Initialize();
-            //        }
-            //    };
-            //    buttonDelete.SetBinding(BindableObject.BindingContextProperty, ".");
-
-            //    grid.Add(titleLabel, 0, 0);
-            //    grid.Add(descriptionLabel, 0, 1);
-            //    grid.Add(timeAndDateLabel, 0, 2);
-            //    grid.Add(recurringLabel, 0, 3);
-            //    grid.Add(buttonDelete, 1, 0);
-            //    border.Content = grid;
-
-            //    return border;
-            //});
-
             //content
             Content = 
                 new Grid
@@ -118,7 +68,21 @@ namespace NotificatorMobile.Pages
                                         Children =
                                         {
                                             new Label().Bind(Label.TextProperty, "Title")
-                                            .Row(0).Column(0)
+                                            .Row(0).Column(0),
+                                            new Label().Bind(Label.TextProperty, "Description")
+                                            .Row(1).Column(0),
+                                            new Label().Bind(Label.TextProperty, "TimeAndDate")
+                                            .Row(2).Column(0),
+                                            new Label().Bind(Label.IsVisibleProperty, "IsRecurring")
+                                            .Row(3).Column(0).Text("Recurring"),
+                                            new Button
+                                            {
+                                                TextColor = Colors.White,
+                                                BackgroundColor = Colors.Red,
+                                            }.Text("Delete")
+                                            .Row(0).Column(1)
+                                            .Bind(BindableObject.BindingContextProperty, ".")
+                                            .Also(b => b.Clicked += OnDeleteNotificationButtonClicked)
                                         }
                                     }
                                 };
@@ -144,6 +108,15 @@ namespace NotificatorMobile.Pages
         private async void OnNewNotificationButtonClicked(object? sender, EventArgs e)
         {
             await Navigation.PushAsync(_serviceProvider.GetRequiredService<AddNotificationPage>());
+        }
+
+        private async void OnDeleteNotificationButtonClicked(object? sender, EventArgs e)
+        {
+            if (sender is Button btn && btn.BindingContext is Notification notification)
+            {
+                await _viewModel.Delete(notification.Id);
+                await _viewModel.Initialize();
+            }
         }
     }
 }

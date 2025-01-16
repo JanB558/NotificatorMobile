@@ -5,6 +5,8 @@ using System.Windows.Input;
 using NotificatorMobile.Validation;
 using FluentValidation.Results;
 using NotificatorMobile.Services;
+using CommunityToolkit.Mvvm.Messaging;
+using NotificatorMobile.Utilities;
 
 namespace NotificatorMobile.ViewModels
 {
@@ -61,6 +63,7 @@ namespace NotificatorMobile.ViewModels
                 return;
             }
             Debug.WriteLine("VALIDATION SUCCESS");
+            ClearErrors();
             await _notificationService.Create(new Models.Notification
             {
                 Title = Title,
@@ -68,7 +71,7 @@ namespace NotificatorMobile.ViewModels
                 TimeAndDate = Date.Date.Add(Time),
                 IsRecurring = IsRecurring,
             });
-            ClearErrors();          
+            WeakReferenceMessenger.Default.Send(new NavigateBackMessage(true));          
         }
 
         private void ApplyErrors()

@@ -1,7 +1,9 @@
 using CommunityToolkit.Maui.Markup;
 using CommunityToolkit.Maui.Markup.LeftToRight;
+using CommunityToolkit.Mvvm.Messaging;
 using NotificatorMobile.Converters;
 using NotificatorMobile.Services;
+using NotificatorMobile.Utilities;
 using NotificatorMobile.ViewModels;
 using static CommunityToolkit.Maui.Markup.GridRowsColumns;
 
@@ -56,5 +58,14 @@ public partial class AddNotificationPage : ContentPage
                     .Bind(Button.CommandProperty, nameof(_viewModel.ConfirmCommand))
             }        
         }.BackgroundColor(Colors.Snow).Margin(20);
+
+        //define messages
+        WeakReferenceMessenger.Default.Register<NavigateBackMessage>(this, (recipient, message) =>
+        {
+            if (message.Value)
+            {
+                MainThread.BeginInvokeOnMainThread(async () => await Navigation.PopAsync());
+            }
+        });
     }
 }

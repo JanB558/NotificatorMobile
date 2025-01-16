@@ -5,6 +5,7 @@ using Microsoft.Maui.Layouts;
 using NotificatorMobile.Converters;
 using NotificatorMobile.Models;
 using NotificatorMobile.Services;
+using NotificatorMobile.Utilities;
 using NotificatorMobile.ViewModels;
 
 namespace NotificatorMobile.Pages
@@ -21,9 +22,6 @@ namespace NotificatorMobile.Pages
             BindingContext = _viewModel;
 
             //declarations
-            var buttonCorner = new Button();
-            buttonCorner.Clicked += OnNewNotificationButtonClicked;
-            buttonCorner.CornerRadius = 50;
 
             //    var descriptionLabel = new Label
             //    {
@@ -126,7 +124,13 @@ namespace NotificatorMobile.Pages
                                 };
                             })
                         }
-                        .Bind(ItemsView.ItemsSourceProperty, nameof(_viewModel.Notifications))
+                        .Bind(ItemsView.ItemsSourceProperty, nameof(_viewModel.Notifications)),
+
+                        new Button
+                        {
+                            CornerRadius = 50
+                        }.Text("New notification").End().Bottom()
+                        .Also(b => b.Clicked += OnNewNotificationButtonClicked)
                     }
                 }.BackgroundColor(Colors.Snow).Margin(20);
         }

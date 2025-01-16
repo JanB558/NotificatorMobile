@@ -38,6 +38,11 @@ namespace NotificatorMobile.ViewModels
             Notifications = (await _notificationService.GetAll() ?? Enumerable.Empty<Notification>()).ToList();
             Debug.WriteLine($"Notifications - {Notifications.Count}");
         }
+
+        public async Task Delete(Guid id)
+        {
+            await _notificationService.Delete(id);
+        }
     }
 
 #pragma warning restore

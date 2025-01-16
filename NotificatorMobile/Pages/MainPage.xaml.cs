@@ -2,6 +2,7 @@
 using Microsoft.Maui.Controls.Shapes;
 using Microsoft.Maui.Layouts;
 using NotificatorMobile.Converters;
+using NotificatorMobile.Models;
 using NotificatorMobile.Services;
 using NotificatorMobile.ViewModels;
 
@@ -31,12 +32,24 @@ namespace NotificatorMobile.Pages
                     Stroke = Colors.LightGray,
                     StrokeThickness = 1,
                     StrokeShape = new RoundRectangle { CornerRadius = 10 },
-                    BackgroundColor = Colors.White
+                    BackgroundColor = Colors.White,
+                    HorizontalOptions = LayoutOptions.Fill
                 };
-                var stackLayout = new VerticalStackLayout
+                var grid = new Grid
                 {
                     Padding = 10,
-                    Spacing = 5
+                    RowDefinitions = new RowDefinitionCollection
+                    {
+                        new RowDefinition(GridLength.Auto),
+                        new RowDefinition(GridLength.Auto),
+                        new RowDefinition(GridLength.Auto),
+                        new RowDefinition(GridLength.Auto)
+                    },
+                    ColumnDefinitions = new ColumnDefinitionCollection
+                    {
+                        new ColumnDefinition(GridLength.Auto),
+                        new ColumnDefinition(GridLength.Auto)
+                    }
                 };
 
                 var titleLabel = new Label
@@ -66,15 +79,38 @@ namespace NotificatorMobile.Pages
                     Text = "Recurring"
                 };
                 recurringLabel.SetBinding(Label.IsVisibleProperty, "IsRecurring");
+                var buttonDelete = new Button
+                {
+                    Text = "Delete",
+                    BackgroundColor = Colors.Red,
+                    TextColor = Colors.White,
+                    Padding = 5,
+                    FontSize = 12,
+                };
+                buttonDelete.Clicked += async (sender, e) =>
+                {
+                    if (sender is Button btn && btn.BindingContext is Notification notification)
+                    {
+                        await _viewModel.Delete(notification.Id);
+                        await _viewModel.Initialize();
+                    }
+                };
+                buttonDelete.SetBinding(BindableObject.BindingContextProperty, ".");
 
-                stackLayout.Add(titleLabel);
-                stackLayout.Add(descriptionLabel);
-                stackLayout.Add(timeAndDateLabel);
-                stackLayout.Add(recurringLabel);
-                border.Content = stackLayout;
+                grid.Add(titleLabel, 0, 0);
+                grid.Add(descriptionLabel, 0, 1);
+                grid.Add(timeAndDateLabel, 0, 2);
+                grid.Add(recurringLabel, 0, 3);
+                grid.Add(buttonDelete, 1, 0);
+                border.Content = grid;
 
                 return border;
             });
+            collectionView.ItemsLayout = new GridItemsLayout(1, ItemsLayoutOrientation.Vertical)
+            {
+                Span = 1
+            };
+            collectionView.HorizontalOptions = LayoutOptions.Fill;
 
             //content
             Content = new AbsoluteLayout
@@ -83,7 +119,7 @@ namespace NotificatorMobile.Pages
                 {
                     new ScrollView
                     {
-                        Content = new StackLayout
+                        Content = new Grid
                         {
                             Children =
                             {
@@ -91,7 +127,7 @@ namespace NotificatorMobile.Pages
                                 .CenterVertical().CenterHorizontal()
                                 .Bind(IsVisibleProperty, nameof(_viewModel.Notifications), BindingMode.OneWay, new NullToBooleanConverter()),
 
-                                collectionView
+                                collectionView.ColumnSpan(2)
                                     .Bind(ItemsView.ItemsSourceProperty, nameof(_viewModel.Notifications))
                             }
                         }

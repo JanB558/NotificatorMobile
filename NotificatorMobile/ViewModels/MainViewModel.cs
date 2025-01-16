@@ -6,6 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using NotificatorMobile.Services;
+using NotificatorMobile.Models;
+using System.Windows.Input;
+using System.Diagnostics;
 
 namespace NotificatorMobile.ViewModels
 {
@@ -18,11 +21,22 @@ namespace NotificatorMobile.ViewModels
     {
         [ObservableProperty]
         private string _noContent = "There is nothing to show.";
+        [ObservableProperty]
+        private ICollection<Notification>? _notifications;
+
+        //public ICommand InitializeCommand { get; }
 
         private readonly INotificationService _notificationService;
         public MainViewModel(INotificationService notificationService)
         {
             _notificationService = notificationService;
+            //InitializeCommand = new Command(async (object o) => await Initialize());
+        }
+
+        public async Task Initialize()
+        {
+            Notifications = (await _notificationService.GetAll() ?? Enumerable.Empty<Notification>()).ToList();
+            Debug.WriteLine($"Notifications - {Notifications.Count}");
         }
     }
 

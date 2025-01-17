@@ -82,7 +82,15 @@ namespace NotificatorMobile.Pages
                                             }.Text("Delete")
                                             .Row(0).Column(1)
                                             .Bind(BindableObject.BindingContextProperty, ".")
-                                            .Also(b => b.Clicked += OnDeleteNotificationButtonClicked)
+                                            .Also(b => b.Clicked += OnDeleteNotificationButtonClicked),
+                                            new Button
+                                            {
+                                                TextColor = Colors.White,
+                                                BackgroundColor = Colors.Blue,
+                                            }.Text("Update")
+                                            .Row(3).Column(1)
+                                            .Bind(BindableObject.BindingContextProperty, ".")
+                                            .Also(b => b.Clicked += OnUpdateNotificationButtonClicked)
                                         }
                                     }
                                 };
@@ -107,7 +115,18 @@ namespace NotificatorMobile.Pages
 
         private async void OnNewNotificationButtonClicked(object? sender, EventArgs e)
         {
-            await Navigation.PushAsync(_serviceProvider.GetRequiredService<AddNotificationPage>());
+            var page = _serviceProvider.GetRequiredService<AddNotificationPage>();
+            await Navigation.PushAsync(page);
+        }
+
+        private async void OnUpdateNotificationButtonClicked(object? sender, EventArgs e)
+        {
+            if (sender is Button btn && btn.BindingContext is Notification notification)
+            {
+                var page = _serviceProvider.GetRequiredService<AddNotificationPage>();
+                page.SetIsUpdate(notification);
+                await Navigation.PushAsync(page);
+            }
         }
 
         private async void OnDeleteNotificationButtonClicked(object? sender, EventArgs e)

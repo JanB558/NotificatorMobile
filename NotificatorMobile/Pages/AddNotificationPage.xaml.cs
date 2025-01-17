@@ -2,6 +2,7 @@ using CommunityToolkit.Maui.Markup;
 using CommunityToolkit.Maui.Markup.LeftToRight;
 using CommunityToolkit.Mvvm.Messaging;
 using NotificatorMobile.Converters;
+using NotificatorMobile.Models;
 using NotificatorMobile.Services;
 using NotificatorMobile.Utilities;
 using NotificatorMobile.ViewModels;
@@ -9,6 +10,9 @@ using static CommunityToolkit.Maui.Markup.GridRowsColumns;
 
 namespace NotificatorMobile.Pages;
 
+/// <summary>
+/// serves for both add and update
+/// </summary>
 public partial class AddNotificationPage : ContentPage
 {
     private readonly AddNotificationViewModel _viewModel;
@@ -67,5 +71,16 @@ public partial class AddNotificationPage : ContentPage
                 MainThread.BeginInvokeOnMainThread(async () => await Navigation.PopAsync());
             }
         });
+    }
+
+    public void SetIsUpdate(Notification notification)
+    {
+        _viewModel.IsUpdate = true;
+        _viewModel.IdForUpdate = notification.Id;
+        _viewModel.Title = notification.Title;
+        _viewModel.Description = notification.Description;
+        _viewModel.Date = notification.TimeAndDate.Date;
+        _viewModel.Time = notification.TimeAndDate.TimeOfDay;
+        _viewModel.IsRecurring = notification.IsRecurring;
     }
 }

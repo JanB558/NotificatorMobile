@@ -37,6 +37,9 @@ namespace NotificatorMobile.ViewModels
         [ObservableProperty]
         private ValidationResult? _validationResult;
 
+        public bool IsUpdate { get; set; } = false;
+        public Guid IdForUpdate { get; set; }
+
         public ICommand ConfirmCommand { get; }
 
         private readonly INotificationService _notificationService;
@@ -49,28 +52,38 @@ namespace NotificatorMobile.ViewModels
 
         public async Task Confirm()
         {
-            Debug.WriteLine($"{Title} {Description} {Date} {Time} {IsRecurring}");
-            Debug.WriteLine($"Date {Date}");
-            Debug.WriteLine($"Time {Time}");
-            Debug.WriteLine($"Date + time {Date.Date + Time} vs now {DateTime.Now}");
-
             var validator = new AddNotificationPageValidator();
             ValidationResult = await validator.ValidateAsync(this);
-            if (!ValidationResult.IsValid)
+
+            if (!ValidationResult.IsValid) // failed - abort
             {
                 ApplyErrors();
                 Debug.WriteLine("VALIDATION FAILED");
                 return;
             }
+
             Debug.WriteLine("VALIDATION SUCCESS");
             ClearErrors();
-            await _notificationService.Create(new Models.Notification
-            {
-                Title = Title,
-                Description = Description,
-                TimeAndDate = Date.Date.Add(Time),
-                IsRecurring = IsRecurring,
-            });
+
+            //success
+            if (IsUpdate == false)
+                await _notificationService.Create(new Models.Notification
+                {
+                    Title = Title,
+                    Description = Description,
+                    TimeAndDate = Date.Date.Add(Time),
+                    IsRecurring = IsRecurring,
+                });
+            else
+                await _notificationService.Update(new Models.Notification
+                {
+                    Id = IdForUpdate,
+                    Title = Title,
+                    Description = Description,
+                    TimeAndDate = Date.Date.Add(Time),
+                    IsRecurring = IsRecurring,
+                });
+            //go back to page
             WeakReferenceMessenger.Default.Send(new NavigateBackMessage(true));          
         }
 

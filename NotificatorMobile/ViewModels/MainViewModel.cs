@@ -35,7 +35,9 @@ namespace NotificatorMobile.ViewModels
 
         public async Task Initialize()
         {
-            Notifications = (await _notificationService.GetAll() ?? Enumerable.Empty<Notification>()).ToList();
+            Notifications = (await _notificationService.GetAll() ?? Enumerable.Empty<Notification>())
+                .OrderBy(notification => notification.TimeAndDate)
+                .ToList();
             Debug.WriteLine($"Notifications - {Notifications.Count}");
         }
 

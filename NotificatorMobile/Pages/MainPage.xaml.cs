@@ -30,94 +30,98 @@ namespace NotificatorMobile.Pages
             var buttonSize = Math.Min(screenWidth, screenHeight) * 0.055;
 
             //content
-            Content = 
-                new Grid
+            Content = new Grid
+            {
+                RowDefinitions = new RowDefinitionCollection
                 {
-                    RowDefinitions = new RowDefinitionCollection
+                    new RowDefinition(GridLength.Star)
+                },
+                ColumnDefinitions = new ColumnDefinitionCollection
+                {
+                    new ColumnDefinition(GridLength.Star)
+                },
+                Children =
+                {
+                    new Label().Text(_viewModel.NoContent).FontSize(24)
+                    .CenterVertical().CenterHorizontal()
+                    .Bind(IsVisibleProperty, nameof(_viewModel.Notifications), BindingMode.OneWay, new NullToBooleanConverter()),
+                    
+                    new CollectionView
                     {
-                        new RowDefinition(GridLength.Star)
-                    },
-                    ColumnDefinitions = new ColumnDefinitionCollection
-                    {
-                        new ColumnDefinition(GridLength.Star)
-                    },
-                    Children =
-                    {
-                        new Label().Text(_viewModel.NoContent).FontSize(24)
-                        .CenterVertical().CenterHorizontal()
-                        .Bind(IsVisibleProperty, nameof(_viewModel.Notifications), BindingMode.OneWay, new NullToBooleanConverter()),
-                        
-                        new CollectionView
+                        ItemTemplate = new DataTemplate(() =>
                         {
-                            ItemTemplate = new DataTemplate(() =>
+                            return new Border
                             {
-                                return new Border
+                                Stroke = Colors.Snow,
+                                StrokeShape = new RoundRectangle { CornerRadius = 10 },
+                                StrokeThickness = 1,
+                                Padding = 5,
+                                BackgroundColor = Colors.Snow,
+                                Content = new Grid
                                 {
-                                    Stroke = Colors.LightGray,
-                                    StrokeThickness = 1,
-                                    StrokeShape = new RoundRectangle { CornerRadius = 10 },
-                                    BackgroundColor = Colors.White,
-                                    HorizontalOptions = LayoutOptions.Fill,
-                                    Content = new Grid
+                                    Padding = 10,
+                                    RowDefinitions = new RowDefinitionCollection
                                     {
-                                        Padding = 10,
-                                        RowDefinitions = new RowDefinitionCollection
+                                        new RowDefinition(new GridLength(20, GridUnitType.Star)),
+                                        new RowDefinition(GridLength.Auto),
+                                        new RowDefinition(new GridLength(20, GridUnitType.Star)),
+                                        new RowDefinition(new GridLength(20, GridUnitType.Star))
+                                    },
+                                    ColumnDefinitions = new ColumnDefinitionCollection
+                                    {
+                                        new ColumnDefinition(new GridLength(90, GridUnitType.Star)),
+                                        new ColumnDefinition(new GridLength(10, GridUnitType.Star))
+                                    },
+                                    Children =
+                                    {
+                                        new Label().Bind(Label.TextProperty, "Title")
+                                        .Row(0).Column(0),
+                                        new Label().Bind(Label.TextProperty, "Description")
+                                        .Row(1).Column(0),
+                                        new Label().Bind(Label.TextProperty, "TimeAndDate")
+                                        .Row(2).Column(0),
+                                        new Label().Bind(Label.IsVisibleProperty, "IsRecurring")
+                                        .Row(3).Column(0).Text("Recurring"),
+                                        new Button
                                         {
-                                            new RowDefinition(GridLength.Auto),
-                                            new RowDefinition(GridLength.Auto),
-                                            new RowDefinition(GridLength.Auto),
-                                            new RowDefinition(GridLength.Auto)
-                                        },
-                                        ColumnDefinitions = new ColumnDefinitionCollection
+                                            ImageSource =
+                                            (Microsoft.Maui.Controls.ImageSource)
+                                            new MauiIcon { Icon = MaterialIcons.Delete, IconColor = Colors.Crimson },
+                                            BackgroundColor = Colors.Transparent,
+                                            BorderWidth = 0,
+                                            Padding = 0
+                                        }.Row(0).Column(1)
+                                        .Bind(BindableObject.BindingContextProperty, ".")
+                                        .Also(b => b.Clicked += async (sender, e) => await OnDeleteNotificationButtonClicked(sender ,e)),
+                                        new Button
                                         {
-                                            new ColumnDefinition(GridLength.Star),
-                                            new ColumnDefinition(GridLength.Auto)
-                                        },
-                                        Children =
-                                        {
-                                            new Label().Bind(Label.TextProperty, "Title")
-                                            .Row(0).Column(0),
-                                            new Label().Bind(Label.TextProperty, "Description")
-                                            .Row(1).Column(0),
-                                            new Label().Bind(Label.TextProperty, "TimeAndDate")
-                                            .Row(2).Column(0),
-                                            new Label().Bind(Label.IsVisibleProperty, "IsRecurring")
-                                            .Row(3).Column(0).Text("Recurring"),
-                                            new Button
-                                            {
-                                                TextColor = Colors.White,
-                                                BackgroundColor = Colors.Red,
-                                            }.Text("Delete")
-                                            .Row(0).Column(1)
-                                            .Bind(BindableObject.BindingContextProperty, ".")
-                                            .Also(b => b.Clicked += async (sender, e) => await OnDeleteNotificationButtonClicked(sender ,e)),
-                                            new Button
-                                            {
-                                                TextColor = Colors.White,
-                                                BackgroundColor = Colors.Blue,
-                                            }.Text("Update")
-                                            .Row(3).Column(1)
-                                            .Bind(BindableObject.BindingContextProperty, ".")
-                                            .Also(b => b.Clicked += async (sender, e) => await OnUpdateNotificationButtonClicked(sender, e))
-                                        }
+                                            ImageSource =
+                                            (Microsoft.Maui.Controls.ImageSource)
+                                            new MauiIcon { Icon = MaterialIcons.Edit, IconColor = Colors.RoyalBlue },
+                                            BackgroundColor = Colors.Transparent,
+                                            BorderWidth = 0,
+                                            Padding = 0
+                                        }.Row(3).Column(1)
+                                        .Bind(BindableObject.BindingContextProperty, ".")
+                                        .Also(b => b.Clicked += async (sender, e) => await OnUpdateNotificationButtonClicked(sender, e))
                                     }
-                                };
-                            })
-                        }
-                        .Bind(ItemsView.ItemsSourceProperty, nameof(_viewModel.Notifications)),
+                                }
+                            };
+                        })
+                    }.Bind(ItemsView.ItemsSourceProperty, nameof(_viewModel.Notifications)),
 
-                        new Button
-                        {
-                            WidthRequest = buttonSize,
-                            HeightRequest = buttonSize,
-                            CornerRadius = (int)(buttonSize / 2.0),
-                            ImageSource = 
-                            (Microsoft.Maui.Controls.ImageSource)
-                            new MauiIcon { Icon = MaterialIcons.Add, IconColor = Colors.White }
-                        }.End().Bottom()
-                        .Also(b => b.Clicked += async (sender, e) => await OnNewNotificationButtonClicked(sender, e))
-                    }
-                }.Margin(20);
+                    new Button
+                    {
+                        WidthRequest = buttonSize,
+                        HeightRequest = buttonSize,
+                        CornerRadius = (int)(buttonSize / 2.0),
+                        ImageSource = 
+                        (Microsoft.Maui.Controls.ImageSource)
+                        new MauiIcon { Icon = MaterialIcons.Add, IconColor = Colors.White }
+                    }.End().Bottom()
+                    .Also(b => b.Clicked += async (sender, e) => await OnNewNotificationButtonClicked(sender, e))
+                }
+            }.Margin(20);
         }
 
         protected override async void OnAppearing()

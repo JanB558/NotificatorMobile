@@ -24,7 +24,7 @@ namespace NotificatorMobile.ViewModels
         [ObservableProperty]
         private DateTime _date = DateTime.Today;
         [ObservableProperty]
-        private TimeSpan _time;
+        private TimeSpan _time = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, 0);
         [ObservableProperty]
         private bool _isRecurring;
 

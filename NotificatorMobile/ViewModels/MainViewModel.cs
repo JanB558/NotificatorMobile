@@ -44,6 +44,7 @@ namespace NotificatorMobile.ViewModels
         public async Task Delete(int id)
         {
             await _notificationService.Delete(id);
+            _notificationService.Cancel(id);
         }
     }
 

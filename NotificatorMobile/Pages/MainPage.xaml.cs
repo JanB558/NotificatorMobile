@@ -117,7 +117,7 @@ namespace NotificatorMobile.Pages
             {
                 await LocalNotificationCenter.Current.RequestNotificationPermission();
             }
-            LocalNotificationCenter.Current.NotificationReceived += async (e) => await OnNotificationReceived(e);
+            LocalNotificationCenter.Current.NotificationActionTapped += async (e) => await OnNotificationReceived(e);
         }
 
         private async Task OnNewNotificationButtonClicked(object? sender, EventArgs e)

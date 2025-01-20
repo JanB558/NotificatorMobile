@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using NotificatorMobile.Pages;
 using NotificatorMobile.Services;
 using Plugin.LocalNotification;
+using MauiIcons.Material;
 
 namespace NotificatorMobile
 {
@@ -15,6 +16,7 @@ namespace NotificatorMobile
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkitMarkup()
                 .UseLocalNotification()
+                .UseMaterialMauiIcons()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

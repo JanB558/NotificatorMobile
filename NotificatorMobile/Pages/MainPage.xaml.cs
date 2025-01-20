@@ -1,4 +1,6 @@
 ﻿using CommunityToolkit.Maui.Markup;
+using MauiIcons.Core;
+using MauiIcons.Material;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Controls.Shapes;
 using Microsoft.Maui.Layouts;
@@ -22,6 +24,10 @@ namespace NotificatorMobile.Pages
             _serviceProvider = serviceProvider;
             _viewModel = new MainViewModel(notificationService);
             BindingContext = _viewModel;
+
+            var screenWidth = DeviceDisplay.MainDisplayInfo.Width;
+            var screenHeight = DeviceDisplay.MainDisplayInfo.Height;
+            var buttonSize = Math.Min(screenWidth, screenHeight) * 0.055;
 
             //content
             Content = 
@@ -102,8 +108,13 @@ namespace NotificatorMobile.Pages
 
                         new Button
                         {
-                            CornerRadius = 50
-                        }.Text("New notification").End().Bottom()
+                            WidthRequest = buttonSize,
+                            HeightRequest = buttonSize,
+                            CornerRadius = (int)(buttonSize / 2.0),
+                            ImageSource = 
+                            (Microsoft.Maui.Controls.ImageSource)
+                            new MauiIcon { Icon = MaterialIcons.Add, IconColor = Colors.White }
+                        }.End().Bottom()
                         .Also(b => b.Clicked += async (sender, e) => await OnNewNotificationButtonClicked(sender, e))
                     }
                 }.Margin(20);

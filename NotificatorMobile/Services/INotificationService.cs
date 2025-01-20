@@ -10,8 +10,8 @@ namespace NotificatorMobile.Services
     public interface INotificationService
     {
         Task<IEnumerable<Notification>?> GetAll();
-        Task<Notification?> GetById(Guid id);
-        Task Delete(Guid id);
+        Task<Notification?> GetById(int id);
+        Task Delete(int id);
         Task Create(Notification notification);
         Task Update(Notification notification);
         void Register(Notification notification);

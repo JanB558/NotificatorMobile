@@ -8,7 +8,7 @@ namespace NotificatorMobile.Models
 {
     public class Notification
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public required string Title { get; set; }
         public required string Description { get; set; }
         public required DateTime TimeAndDate { get; set; }

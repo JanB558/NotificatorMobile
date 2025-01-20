@@ -41,7 +41,7 @@ namespace NotificatorMobile.ViewModels
             Debug.WriteLine($"Notifications - {Notifications.Count}");
         }
 
-        public async Task Delete(Guid id)
+        public async Task Delete(int id)
         {
             await _notificationService.Delete(id);
         }

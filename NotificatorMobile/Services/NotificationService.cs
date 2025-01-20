@@ -39,7 +39,7 @@ namespace NotificatorMobile.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task Delete(Guid id)
+        public async Task Delete(int id)
         {
             try
             {
@@ -71,7 +71,7 @@ namespace NotificatorMobile.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<Notification?> GetById(Guid id)
+        public async Task<Notification?> GetById(int id)
         {
             try
             {

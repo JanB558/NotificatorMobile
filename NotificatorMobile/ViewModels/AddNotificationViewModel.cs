@@ -38,7 +38,7 @@ namespace NotificatorMobile.ViewModels
         private ValidationResult? _validationResult;
 
         public bool IsUpdate { get; set; } = false;
-        public Guid IdForUpdate { get; set; }
+        public int IdForUpdate { get; set; }
 
         public ICommand ConfirmCommand { get; }
 

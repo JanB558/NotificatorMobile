@@ -67,22 +67,31 @@ namespace NotificatorMobile.ViewModels
 
             //success
             if (IsUpdate == false)
-                await _notificationService.Create(new Models.Notification
+            {
+                var notification = new Models.Notification
                 {
                     Title = Title,
                     Description = Description,
                     TimeAndDate = Date.Date.Add(Time),
-                    IsRecurring = IsRecurring,
-                });
+                    IsRecurring = IsRecurring
+                };
+                await _notificationService.Create(notification);
+                await _notificationService.Register(notification);
+            }
             else
-                await _notificationService.Update(new Models.Notification
+            {
+                var notification = new Models.Notification
                 {
                     Id = IdForUpdate,
                     Title = Title,
                     Description = Description,
                     TimeAndDate = Date.Date.Add(Time),
                     IsRecurring = IsRecurring,
-                });
+                };
+                await _notificationService.Update(notification);
+                _notificationService.Cancel(IdForUpdate);
+                await _notificationService.Register(notification);
+            }
             //go back to page
             WeakReferenceMessenger.Default.Send(new NavigateBackMessage(true));          
         }

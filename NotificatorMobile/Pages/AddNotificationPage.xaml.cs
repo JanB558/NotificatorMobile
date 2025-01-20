@@ -54,9 +54,9 @@ public partial class AddNotificationPage : ContentPage
                 new Label().CenterVertical().FontSize(14).TextColor(Microsoft.Maui.Graphics.Colors.Red)
                     .Bind(Label.TextProperty, nameof(_viewModel.TimeError)),
 
-                //new Label().Text("Recurring").CenterVertical().FontSize(18),
-                //new Switch().Left().CenterVertical()
-                //    .Bind(Switch.IsToggledProperty, nameof(_viewModel.IsRecurring)),
+                new Label().Text("Recurring").CenterVertical().FontSize(18),
+                new Switch().Left().CenterVertical()
+                    .Bind(Switch.IsToggledProperty, nameof(_viewModel.IsRecurring)),
 
                 buttonConfirm.Text("Confirm").CenterVertical()
                     .Bind(Button.CommandProperty, nameof(_viewModel.ConfirmCommand))
@@ -81,6 +81,6 @@ public partial class AddNotificationPage : ContentPage
         _viewModel.Description = notification.Description;
         _viewModel.Date = notification.TimeAndDate.Date;
         _viewModel.Time = notification.TimeAndDate.TimeOfDay;
-        //_viewModel.IsRecurring = notification.IsRecurring;
+        _viewModel.IsRecurring = notification.IsRecurring;
     }
 }

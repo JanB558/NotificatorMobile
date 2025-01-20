@@ -25,8 +25,8 @@ namespace NotificatorMobile.ViewModels
         private DateTime _date = DateTime.Today;
         [ObservableProperty]
         private TimeSpan _time = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, 0);
-        //[ObservableProperty]
-        //private bool _isRecurring;
+        [ObservableProperty]
+        private bool _isRecurring;
 
         [ObservableProperty]
         private string? _titleError;
@@ -73,7 +73,7 @@ namespace NotificatorMobile.ViewModels
                     Title = Title,
                     Description = Description,
                     TimeAndDate = Date.Date.Add(Time),
-                    //IsRecurring = IsRecurring
+                    IsRecurring = IsRecurring
                 };
                 await _notificationService.Create(notification);
                 await _notificationService.Register(notification);
@@ -86,7 +86,7 @@ namespace NotificatorMobile.ViewModels
                     Title = Title,
                     Description = Description,
                     TimeAndDate = Date.Date.Add(Time),
-                    //IsRecurring = IsRecurring,
+                    IsRecurring = IsRecurring,
                 };
                 await _notificationService.Update(notification);
                 _notificationService.Cancel(IdForUpdate);

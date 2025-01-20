@@ -148,7 +148,16 @@ namespace NotificatorMobile.Pages
         private async Task OnNotificationReceived(NotificationEventArgs e)
         {
             int id = e.Request.NotificationId;
+            var notification = await _viewModel.GetServiceHandle().GetById(id);
+            if (notification == null) return;
+
             await _viewModel.Delete(id);
+            if (notification.IsRecurring)
+            {
+                notification.TimeAndDate = notification.TimeAndDate.AddDays(1);
+                await _viewModel.GetServiceHandle().Create(notification);
+                await _viewModel.GetServiceHandle().Register(notification);
+            }           
             await _viewModel.Initialize();
         }
     }

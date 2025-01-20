@@ -46,6 +46,11 @@ namespace NotificatorMobile.ViewModels
             await _notificationService.Delete(id);
             _notificationService.Cancel(id);
         }
+
+        public INotificationService GetServiceHandle()
+        {
+            return _notificationService;
+        }
     }
 
 #pragma warning restore

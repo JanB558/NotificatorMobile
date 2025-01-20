@@ -99,5 +99,20 @@ namespace NotificatorMobile.Services
                 Debug.WriteLine($"Database operation failed - {ex}");
             }
         }
+
+        public void Register(Notification notification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Cancel(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        private double GetSecondsDifference(DateTime dateTime)
+        {
+            return (DateTime.Now - dateTime).TotalSeconds;
+        }
     }
 }

@@ -14,5 +14,7 @@ namespace NotificatorMobile.Services
         Task Delete(Guid id);
         Task Create(Notification notification);
         Task Update(Notification notification);
+        void Register(Notification notification);
+        void Cancel(int id);
     }
 }

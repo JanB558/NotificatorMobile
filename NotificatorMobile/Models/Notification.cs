@@ -12,6 +12,6 @@ namespace NotificatorMobile.Models
         public required string Title { get; set; }
         public required string Description { get; set; }
         public required DateTime TimeAndDate { get; set; }
-        public bool IsRecurring { get; set; }
+        //public bool IsRecurring { get; set; }
     }
 }

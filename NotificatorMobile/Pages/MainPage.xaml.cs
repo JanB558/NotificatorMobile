@@ -7,6 +7,7 @@ using NotificatorMobile.Models;
 using NotificatorMobile.Services;
 using NotificatorMobile.Utilities;
 using NotificatorMobile.ViewModels;
+using Plugin.LocalNotification;
 
 namespace NotificatorMobile.Pages
 {
@@ -15,7 +16,7 @@ namespace NotificatorMobile.Pages
         private readonly MainViewModel _viewModel;
         private readonly IServiceProvider _serviceProvider;
 
-        public MainPage(INotificationService notificationService, IServiceProvider serviceProvider)
+        public MainPage(Services.INotificationService notificationService, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _viewModel = new MainViewModel(notificationService);
@@ -111,6 +112,10 @@ namespace NotificatorMobile.Pages
         {
             base.OnAppearing();
             await _viewModel.Initialize();
+            if (await LocalNotificationCenter.Current.AreNotificationsEnabled() == false)
+            {
+                await LocalNotificationCenter.Current.RequestNotificationPermission();
+            }
         }
 
         private async void OnNewNotificationButtonClicked(object? sender, EventArgs e)

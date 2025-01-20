@@ -106,7 +106,7 @@ namespace NotificatorMobile.Pages
                         }.Text("New notification").End().Bottom()
                         .Also(b => b.Clicked += async (sender, e) => await OnNewNotificationButtonClicked(sender, e))
                     }
-                }.BackgroundColor(Colors.Snow).Margin(20);
+                }.Margin(20);
         }
 
         protected override async void OnAppearing()

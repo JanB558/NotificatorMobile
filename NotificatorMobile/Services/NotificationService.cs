@@ -18,6 +18,11 @@ namespace NotificatorMobile.Services
             _database = new LiteDatabase(databasePath);
             _notificationCollection = _database.GetCollection<Notification>(collectionName);
         }
+        /// <summary>
+        /// Add notification to the db
+        /// </summary>
+        /// <param name="notification"></param>
+        /// <returns></returns>
         public async Task Create(Notification notification)
         {
             try
@@ -29,7 +34,11 @@ namespace NotificatorMobile.Services
                 Debug.WriteLine($"Database operation failed - {ex}");
             }
         }
-
+        /// <summary>
+        /// Delete notification from db
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task Delete(Guid id)
         {
             try
@@ -41,7 +50,10 @@ namespace NotificatorMobile.Services
                 Debug.WriteLine($"Database operation failed - {ex}");
             }
         }
-
+        /// <summary>
+        /// Get all notifications from db
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<Notification>?> GetAll()
         {
             try
@@ -54,7 +66,11 @@ namespace NotificatorMobile.Services
                 return null;
             }
         }
-
+        /// <summary>
+        /// Get notification by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<Notification?> GetById(Guid id)
         {
             try
@@ -67,7 +83,11 @@ namespace NotificatorMobile.Services
                 return null;
             }
         }
-
+        /// <summary>
+        /// Update notification in the db
+        /// </summary>
+        /// <param name="notification"></param>
+        /// <returns></returns>
         public async Task Update(Notification notification)
         {
             try

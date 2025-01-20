@@ -29,6 +29,9 @@ namespace NotificatorMobile.ViewModels
         private bool _isRecurring;
 
         [ObservableProperty]
+        private string _message = "Create new notification";
+
+        [ObservableProperty]
         private string? _titleError;
         [ObservableProperty]
         public string? _descriptionError;

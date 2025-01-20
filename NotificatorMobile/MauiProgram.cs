@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using NotificatorMobile.Pages;
 using NotificatorMobile.Services;
+using Plugin.LocalNotification;
 
 namespace NotificatorMobile
 {
@@ -13,6 +14,7 @@ namespace NotificatorMobile
             builder
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkitMarkup()
+                .UseLocalNotification()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -26,7 +28,7 @@ namespace NotificatorMobile
             builder.Services.AddTransient<MainPage>();
             builder.Services.AddTransient<AddNotificationPage>();
             //db
-            builder.Services.AddSingleton<INotificationService>
+            builder.Services.AddSingleton<NotificatorMobile.Services.INotificationService>
                 (provider => new NotificationService
                 (Path.Combine(FileSystem.AppDataDirectory, "ndb.db"), "notifications"));
 

@@ -1,5 +1,6 @@
 ﻿using LiteDB;
 using NotificatorMobile.Models;
+using Plugin.LocalNotification;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -100,19 +101,33 @@ namespace NotificatorMobile.Services
             }
         }
 
-        public void Register(Notification notification)
+        /// <summary>
+        /// Register new notification in the queue
+        /// </summary>
+        /// <param name="notification"></param>
+        /// <returns></returns>
+        public async Task Register(Notification notification)
         {
-            throw new NotImplementedException();
+            var notificationRequest = new NotificationRequest
+            {
+                NotificationId = notification.Id,
+                Title = notification.Title,
+                Description = notification.Description,
+                Schedule = 
+                { 
+                    NotifyTime = notification.TimeAndDate 
+                }
+            };
+            await LocalNotificationCenter.Current.Show(notificationRequest);
         }
 
+        /// <summary>
+        /// Cancel notification from the queue
+        /// </summary>
+        /// <param name="id"></param>
         public void Cancel(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        private double GetSecondsDifference(DateTime dateTime)
-        {
-            return (DateTime.Now - dateTime).TotalSeconds;
+            LocalNotificationCenter.Current.Cancel(new int[] { id });
         }
     }
 }

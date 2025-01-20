@@ -8,6 +8,7 @@ using NotificatorMobile.Services;
 using NotificatorMobile.Utilities;
 using NotificatorMobile.ViewModels;
 using Plugin.LocalNotification;
+using Plugin.LocalNotification.EventArgs;
 
 namespace NotificatorMobile.Pages
 {
@@ -83,7 +84,7 @@ namespace NotificatorMobile.Pages
                                             }.Text("Delete")
                                             .Row(0).Column(1)
                                             .Bind(BindableObject.BindingContextProperty, ".")
-                                            .Also(b => b.Clicked += OnDeleteNotificationButtonClicked),
+                                            .Also(b => b.Clicked += async (sender, e) => await OnDeleteNotificationButtonClicked(sender ,e)),
                                             new Button
                                             {
                                                 TextColor = Colors.White,
@@ -91,7 +92,7 @@ namespace NotificatorMobile.Pages
                                             }.Text("Update")
                                             .Row(3).Column(1)
                                             .Bind(BindableObject.BindingContextProperty, ".")
-                                            .Also(b => b.Clicked += OnUpdateNotificationButtonClicked)
+                                            .Also(b => b.Clicked += async (sender, e) => await OnUpdateNotificationButtonClicked(sender, e))
                                         }
                                     }
                                 };
@@ -103,7 +104,7 @@ namespace NotificatorMobile.Pages
                         {
                             CornerRadius = 50
                         }.Text("New notification").End().Bottom()
-                        .Also(b => b.Clicked += OnNewNotificationButtonClicked)
+                        .Also(b => b.Clicked += async (sender, e) => await OnNewNotificationButtonClicked(sender, e))
                     }
                 }.BackgroundColor(Colors.Snow).Margin(20);
         }
@@ -116,15 +117,16 @@ namespace NotificatorMobile.Pages
             {
                 await LocalNotificationCenter.Current.RequestNotificationPermission();
             }
+            LocalNotificationCenter.Current.NotificationReceived += async (e) => await OnNotificationReceived(e);
         }
 
-        private async void OnNewNotificationButtonClicked(object? sender, EventArgs e)
+        private async Task OnNewNotificationButtonClicked(object? sender, EventArgs e)
         {
             var page = _serviceProvider.GetRequiredService<AddNotificationPage>();
             await Navigation.PushAsync(page);
         }
 
-        private async void OnUpdateNotificationButtonClicked(object? sender, EventArgs e)
+        private async Task OnUpdateNotificationButtonClicked(object? sender, EventArgs e)
         {
             if (sender is Button btn && btn.BindingContext is Notification notification)
             {
@@ -134,13 +136,20 @@ namespace NotificatorMobile.Pages
             }
         }
 
-        private async void OnDeleteNotificationButtonClicked(object? sender, EventArgs e)
+        private async Task OnDeleteNotificationButtonClicked(object? sender, EventArgs e)
         {
             if (sender is Button btn && btn.BindingContext is Notification notification)
             {
                 await _viewModel.Delete(notification.Id);
                 await _viewModel.Initialize();
             }
+        }
+
+        private async Task OnNotificationReceived(NotificationEventArgs e)
+        {
+            int id = e.Request.NotificationId;
+            await _viewModel.Delete(id);
+            await _viewModel.Initialize();
         }
     }
 }

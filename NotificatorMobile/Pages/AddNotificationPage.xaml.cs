@@ -22,6 +22,19 @@ public partial class AddNotificationPage : ContentPage
         _viewModel = new AddNotificationViewModel(notificationService);
         BindingContext = _viewModel;
 
+        Color secondaryColor;
+        Color primaryColor;
+        if (Application.Current is not null)
+        {
+            secondaryColor = (Color)Application.Current.Resources["ColorSecondary"];
+            primaryColor = (Color)Application.Current.Resources["ColorPrimary"];
+        }
+        else
+        {
+            secondaryColor = Colors.FloralWhite; //should never happen, but with this app will work anyway
+            primaryColor = Colors.RoyalBlue;
+        }
+
         //content
         Content = new Grid
         {
@@ -43,7 +56,7 @@ public partial class AddNotificationPage : ContentPage
                     StrokeShape = new RoundRectangle { CornerRadius = 10 },
                     StrokeThickness = 1,
                     Padding = 5,
-                    BackgroundColor = Colors.FloralWhite,
+                    BackgroundColor = secondaryColor,
                     Content =
                     new StackLayout
                     {
@@ -84,7 +97,8 @@ public partial class AddNotificationPage : ContentPage
 
                         new Button
                         {
-                            CornerRadius = 50
+                            CornerRadius = 50,
+                            BackgroundColor = primaryColor
                         }.Text("Confirm").CenterVertical()
                         .DynamicResource(VisualElement.StyleProperty, "ButtonStyle")
                         .Bind(Button.CommandProperty, nameof(_viewModel.ConfirmCommand))

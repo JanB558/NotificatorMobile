@@ -30,9 +30,17 @@ namespace NotificatorMobile.Pages
             var buttonSize = Math.Min(screenWidth, screenHeight) * 0.055;
 
             Color secondaryColor;
+            Color primaryColor;
             if (Application.Current is not null)
+            {
                 secondaryColor = (Color)Application.Current.Resources["ColorSecondary"];
-            else secondaryColor = Colors.White; //should never happen, but with this app will work anyway
+                primaryColor = (Color)Application.Current.Resources["ColorPrimary"];
+            }
+            else
+            {
+                secondaryColor = Colors.FloralWhite; //should never happen, but with this app will work anyway
+                primaryColor = Colors.RoyalBlue;
+            }
 
             //content
             Content = new Grid
@@ -106,7 +114,7 @@ namespace NotificatorMobile.Pages
                                         {
                                             ImageSource =
                                             (Microsoft.Maui.Controls.ImageSource)
-                                            new MauiIcon { Icon = MaterialIcons.Edit, IconColor = Colors.RoyalBlue },
+                                            new MauiIcon { Icon = MaterialIcons.Edit, IconColor = primaryColor },
                                             BackgroundColor = Colors.Transparent,
                                             BorderWidth = 0,
                                             Padding = 0

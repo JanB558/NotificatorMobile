@@ -4,6 +4,7 @@ using NotificatorMobile.Pages;
 using NotificatorMobile.Services;
 using Plugin.LocalNotification;
 using MauiIcons.Material;
+using CommunityToolkit.Maui;
 
 namespace NotificatorMobile
 {
@@ -15,6 +16,7 @@ namespace NotificatorMobile
             builder
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkitMarkup()
+                .UseMauiCommunityToolkit()
                 .UseLocalNotification()
                 .UseMaterialMauiIcons()
                 .ConfigureFonts(fonts =>

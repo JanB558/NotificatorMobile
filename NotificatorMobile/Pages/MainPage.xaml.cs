@@ -55,6 +55,7 @@ namespace NotificatorMobile.Pages
                 StatusBarStyle = StatusBarStyle.LightContent
             });
 #pragma warning restore
+            Title = "Notifications";
 
             //content
             Content = new Grid
@@ -71,7 +72,7 @@ namespace NotificatorMobile.Pages
                 {
                     new Label().Text(_viewModel.NoContent)
                     .DynamicResource(VisualElement.StyleProperty, "HeaderLabelStyle")
-                    .Bind(IsVisibleProperty, nameof(_viewModel.Notifications), BindingMode.OneWay, new NullToBooleanConverter()),
+                    .Bind(IsVisibleProperty, nameof(_viewModel.Notifications), BindingMode.OneWay, new CollectionToBooleanConverter()),
                     
                     new CollectionView
                     {

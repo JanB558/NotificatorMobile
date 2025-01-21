@@ -69,7 +69,7 @@ namespace NotificatorMobile.Pages
                                 StrokeShape = new RoundRectangle { CornerRadius = 10 },
                                 StrokeThickness = 1,
                                 Padding = 5,
-                                BackgroundColor = Colors.FloralWhite,
+                                BackgroundColor = secondaryColor,
                                 Content = new Grid
                                 {
                                     Padding = 10,

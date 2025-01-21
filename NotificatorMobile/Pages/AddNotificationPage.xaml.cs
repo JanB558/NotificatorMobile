@@ -52,7 +52,7 @@ public partial class AddNotificationPage : ContentPage
             {
                 new Border
                 {
-                    Stroke = Colors.Snow,
+                    Stroke = secondaryColor,
                     StrokeShape = new RoundRectangle { CornerRadius = 10 },
                     StrokeThickness = 1,
                     Padding = 5,
@@ -99,7 +99,7 @@ public partial class AddNotificationPage : ContentPage
                         {
                             CornerRadius = 50,
                             BackgroundColor = primaryColor
-                        }.Text("Confirm").CenterVertical()
+                        }.Text("Confirm").Bottom().CenterHorizontal()
                         .DynamicResource(VisualElement.StyleProperty, "ButtonStyle")
                         .Bind(Button.CommandProperty, nameof(_viewModel.ConfirmCommand))
                         }

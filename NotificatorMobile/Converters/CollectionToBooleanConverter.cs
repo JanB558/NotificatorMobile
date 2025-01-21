@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -14,9 +15,9 @@ namespace NotificatorMobile.Converters
         {
             if (value is ICollection collection)
             {
-                return collection.Count > 0;
+                return collection.Count == 0;
             }
-            return false;
+            return true;
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

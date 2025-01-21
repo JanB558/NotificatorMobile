@@ -27,9 +27,9 @@ public partial class AddNotificationPage : ContentPage
         {
             RowDefinitions = new RowDefinitionCollection
             {
-                new RowDefinition(new GridLength(15, GridUnitType.Star)),
-                new RowDefinition(new GridLength(70, GridUnitType.Star)),
-                new RowDefinition(new GridLength(15, GridUnitType.Star))
+                new RowDefinition(new GridLength(12, GridUnitType.Star)),
+                new RowDefinition(new GridLength(76, GridUnitType.Star)),
+                new RowDefinition(new GridLength(12, GridUnitType.Star))
             },
             ColumnDefinitions = new ColumnDefinitionCollection
             {
@@ -49,35 +49,36 @@ public partial class AddNotificationPage : ContentPage
                     {
                         Children =
                         {
-                        new Label().FontSize(18).Bind(Label.TextProperty, nameof(_viewModel.Message))
-                        .CenterVertical().CenterHorizontal(),
+                        new Label().Bind(Label.TextProperty, nameof(_viewModel.Message))
+                        .DynamicResource(VisualElement.StyleProperty, "HeaderLabelStyle"),
 
-                        new Label().Text("Title").CenterVertical().FontSize(18),
-                        new Entry().CenterVertical().FontSize(14)
-                        .Bind(Entry.TextProperty, nameof(_viewModel.Title)),
-                        new Label().CenterVertical().FontSize(14).TextColor(Microsoft.Maui.Graphics.Colors.Red)
+                        new Label().Text("Title").DynamicResource(VisualElement.StyleProperty, "StandardLabelStyle"),
+                        new Entry().Bind(Entry.TextProperty, nameof(_viewModel.Title))
+                        .DynamicResource(VisualElement.StyleProperty, "EntryStyle"),
+                        new Label().DynamicResource(VisualElement.StyleProperty, "ErrorLabelStyle")
                         .Bind(Label.TextProperty, nameof(_viewModel.TitleError)),
 
-                        new Label().Text("Description").CenterVertical().FontSize(18),
-                        new Editor().CenterVertical().FontSize(14)
+                        new Label().Text("Description").DynamicResource(VisualElement.StyleProperty, "StandardLabelStyle"),
+                        new Editor().DynamicResource(VisualElement.StyleProperty, "EditorStyle")
                         .Bind(Entry.TextProperty, nameof(_viewModel.Description)),
-                        new Label().CenterVertical().FontSize(14).TextColor(Microsoft.Maui.Graphics.Colors.Red)
+                        new Label().DynamicResource(VisualElement.StyleProperty, "ErrorLabelStyle")
                         .Bind(Label.TextProperty, nameof(_viewModel.DescriptionError)),
 
-                        new Label().Text("Date").CenterVertical().FontSize(18),
+                        new Label().Text("Date").DynamicResource(VisualElement.StyleProperty, "StandardLabelStyle"),
                         new DatePicker
                         {
                             MinimumDate = DateTime.Today,
-                        }.CenterVertical().FontSize(12)
+                        }
+                        .DynamicResource(VisualElement.StyleProperty, "DatePickerStyle")
                         .Bind(DatePicker.DateProperty, nameof(_viewModel.Date)),
 
-                        new Label().Text("Time").CenterVertical().FontSize(18),
-                        new TimePicker().CenterVertical().FontSize(12)
+                        new Label().Text("Time").DynamicResource(VisualElement.StyleProperty, "StandardLabelStyle"),
+                        new TimePicker().DynamicResource(VisualElement.StyleProperty, "TimePickerStyle")
                         .Bind(TimePicker.TimeProperty, nameof(_viewModel.Time)),
-                        new Label().CenterVertical().FontSize(14).TextColor(Microsoft.Maui.Graphics.Colors.Red)
+                        new Label().DynamicResource(VisualElement.StyleProperty, "ErrorLabelStyle")
                         .Bind(Label.TextProperty, nameof(_viewModel.TimeError)),
 
-                        new Label().Text("Recurring").CenterVertical().FontSize(18),
+                        new Label().Text("Recurring").DynamicResource(VisualElement.StyleProperty, "StandardLabelStyle"),
                         new Switch().Left().CenterVertical()
                         .Bind(Switch.IsToggledProperty, nameof(_viewModel.IsRecurring)),
 

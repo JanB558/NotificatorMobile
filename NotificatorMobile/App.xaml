@@ -46,7 +46,6 @@
             <Style x:Key="EditorStyle" TargetType="Editor">
                 <Setter Property="FontSize" Value="Default"/>
                 <Setter Property="FontFamily" Value="OpenSansRegular"/>
-                <Setter Property="HorizontalOptions" Value="Start"/>
                 <Setter Property="VerticalOptions" Value="Center"/>
             </Style>
             <Style x:Key="DatePickerStyle" TargetType="DatePicker">

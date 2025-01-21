@@ -10,6 +10,8 @@
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <!--custom styles-->
+            <Color x:Key="ColorPrimary">#00D1CF</Color>
+            <Color x:Key="ColorSecondary">#f08080</Color>
             <Style x:Key="StandardLabelStyle" TargetType="Label">
                 <Setter Property="FontSize" Value="Default"/>
                 <Setter Property="FontFamily" Value="OpenSansRegular"/>
@@ -58,6 +60,10 @@
                 <Setter Property="FontFamily" Value="OpenSansRegular"/>
                 <Setter Property="HorizontalOptions" Value="Start"/>
                 <Setter Property="VerticalOptions" Value="Center"/>
+            </Style>
+            <Style x:Key="ButtonStyle" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource ColorPrimary}"/>
+                <Setter Property="TextColor" Value="White"/>
             </Style>
         </ResourceDictionary>
     </Application.Resources>

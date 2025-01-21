@@ -43,7 +43,7 @@ public partial class AddNotificationPage : ContentPage
                     StrokeShape = new RoundRectangle { CornerRadius = 10 },
                     StrokeThickness = 1,
                     Padding = 5,
-                    BackgroundColor = Colors.Snow,
+                    BackgroundColor = Colors.FloralWhite,
                     Content =
                     new StackLayout
                     {
@@ -86,6 +86,7 @@ public partial class AddNotificationPage : ContentPage
                         {
                             CornerRadius = 50
                         }.Text("Confirm").CenterVertical()
+                        .DynamicResource(VisualElement.StyleProperty, "ButtonStyle")
                         .Bind(Button.CommandProperty, nameof(_viewModel.ConfirmCommand))
                         }
                     }

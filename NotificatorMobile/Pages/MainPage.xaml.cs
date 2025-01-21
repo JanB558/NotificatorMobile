@@ -29,6 +29,11 @@ namespace NotificatorMobile.Pages
             var screenHeight = DeviceDisplay.MainDisplayInfo.Height;
             var buttonSize = Math.Min(screenWidth, screenHeight) * 0.055;
 
+            Color secondaryColor;
+            if (Application.Current is not null)
+                secondaryColor = (Color)Application.Current.Resources["ColorSecondary"];
+            else secondaryColor = Colors.White; //should never happen, but with this app will work anyway
+
             //content
             Content = new Grid
             {
@@ -52,7 +57,7 @@ namespace NotificatorMobile.Pages
                         {
                             return new Border
                             {
-                                Stroke = Colors.Snow,
+                                Stroke = secondaryColor,
                                 StrokeShape = new RoundRectangle { CornerRadius = 10 },
                                 StrokeThickness = 1,
                                 Padding = 5,
@@ -123,6 +128,7 @@ namespace NotificatorMobile.Pages
                         (Microsoft.Maui.Controls.ImageSource)
                         new MauiIcon { Icon = MaterialIcons.Add, IconColor = Colors.White }
                     }.End().Bottom()
+                    .DynamicResource(VisualElement.StyleProperty, "ButtonStyle")
                     .Also(b => b.Clicked += async (sender, e) => await OnNewNotificationButtonClicked(sender, e))
                 }
             }.Margin(20);

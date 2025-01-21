@@ -42,8 +42,8 @@ namespace NotificatorMobile.Pages
                 },
                 Children =
                 {
-                    new Label().Text(_viewModel.NoContent).FontSize(24)
-                    .CenterVertical().CenterHorizontal()
+                    new Label().Text(_viewModel.NoContent)
+                    .DynamicResource(VisualElement.StyleProperty, "HeaderLabelStyle")
                     .Bind(IsVisibleProperty, nameof(_viewModel.Notifications), BindingMode.OneWay, new NullToBooleanConverter()),
                     
                     new CollectionView
@@ -56,7 +56,7 @@ namespace NotificatorMobile.Pages
                                 StrokeShape = new RoundRectangle { CornerRadius = 10 },
                                 StrokeThickness = 1,
                                 Padding = 5,
-                                BackgroundColor = Colors.Snow,
+                                BackgroundColor = Colors.FloralWhite,
                                 Content = new Grid
                                 {
                                     Padding = 10,
@@ -75,12 +75,16 @@ namespace NotificatorMobile.Pages
                                     Children =
                                     {
                                         new Label().Bind(Label.TextProperty, "Title")
+                                        .DynamicResource(VisualElement.StyleProperty, "HeaderLabelStyle")
                                         .Row(0).Column(0),
                                         new Label().Bind(Label.TextProperty, "Description")
+                                        .DynamicResource(VisualElement.StyleProperty, "StandardLabelStyle")
                                         .Row(1).Column(0),
                                         new Label().Bind(Label.TextProperty, "TimeAndDate")
+                                        .DynamicResource(VisualElement.StyleProperty, "StandardLabelStyle")
                                         .Row(2).Column(0),
                                         new Label().Bind(Label.IsVisibleProperty, "IsRecurring")
+                                        .DynamicResource(VisualElement.StyleProperty, "StandardLabelStyle")
                                         .Row(3).Column(0).Text("Recurring"),
                                         new Button
                                         {

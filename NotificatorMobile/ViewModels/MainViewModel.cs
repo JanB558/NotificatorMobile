@@ -39,6 +39,7 @@ namespace NotificatorMobile.ViewModels
                 .OrderBy(notification => notification.TimeAndDate)
                 .ToList();
             Debug.WriteLine($"Notifications - {Notifications.Count}");
+            if (Notifications.Count == 0) Notifications = null;            
         }
 
         public async Task Delete(int id)

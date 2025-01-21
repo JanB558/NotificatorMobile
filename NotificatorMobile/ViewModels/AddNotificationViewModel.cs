@@ -10,8 +10,8 @@ using NotificatorMobile.Utilities;
 
 namespace NotificatorMobile.ViewModels
 {
-#pragma warning disable MVVMTK0032
-#pragma warning disable MVVMTK0049
+#pragma warning disable MVVMTK0032 //this is some weird issue that many other people encounter in one way or another, 
+    //but code compiles and works with no issues
 #pragma warning disable MVVMTK0045 //silence warnings that it won't work on windows, this is not windows app
 
     [INotifyPropertyChanged]
@@ -24,7 +24,7 @@ namespace NotificatorMobile.ViewModels
         [ObservableProperty]
         private DateTime _date = DateTime.Today;
         [ObservableProperty]
-        private TimeSpan _time = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, 0);
+        private TimeSpan _time = new(DateTime.Now.Hour, DateTime.Now.Minute, 0);
         [ObservableProperty]
         private bool _isRecurring;
 

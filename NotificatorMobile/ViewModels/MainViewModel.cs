@@ -12,8 +12,8 @@ using System.Diagnostics;
 
 namespace NotificatorMobile.ViewModels
 {
-#pragma warning disable MVVMTK0032
-#pragma warning disable MVVMTK0049
+#pragma warning disable MVVMTK0032 //this is some weird issue that many other people encounter in one way or another, 
+    //but code compiles and works with no issues
 #pragma warning disable MVVMTK0045 //silence warnings that it won't work on windows, this is not windows app
 
     [INotifyPropertyChanged]
@@ -24,15 +24,11 @@ namespace NotificatorMobile.ViewModels
         [ObservableProperty]
         private ICollection<Notification>? _notifications;
 
-        //public ICommand InitializeCommand { get; }
-
         private readonly INotificationService _notificationService;
         public MainViewModel(INotificationService notificationService)
         {
             _notificationService = notificationService;
-            //InitializeCommand = new Command(async (object o) => await Initialize());
         }
-
         public async Task Initialize()
         {
             Notifications = (await _notificationService.GetAll() ?? Enumerable.Empty<Notification>())
@@ -51,6 +47,5 @@ namespace NotificatorMobile.ViewModels
             return _notificationService;
         }
     }
-
 #pragma warning restore
 }

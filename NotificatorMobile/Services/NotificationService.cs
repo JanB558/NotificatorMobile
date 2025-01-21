@@ -127,7 +127,7 @@ namespace NotificatorMobile.Services
         /// <param name="id"></param>
         public void Cancel(int id)
         {
-            LocalNotificationCenter.Current.Cancel(new int[] { id });
+            LocalNotificationCenter.Current.Cancel([id]);
         }
     }
 }

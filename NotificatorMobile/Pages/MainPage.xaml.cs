@@ -1,4 +1,6 @@
-﻿using CommunityToolkit.Maui.Markup;
+﻿using CommunityToolkit.Maui.Behaviors;
+using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.Markup;
 using MauiIcons.Core;
 using MauiIcons.Material;
 using Microsoft.Maui.Controls;
@@ -21,14 +23,17 @@ namespace NotificatorMobile.Pages
 
         public MainPage(Services.INotificationService notificationService, IServiceProvider serviceProvider)
         {
+            //init
             _serviceProvider = serviceProvider;
             _viewModel = new MainViewModel(notificationService);
             BindingContext = _viewModel;
 
+            //screen size
             var screenWidth = DeviceDisplay.MainDisplayInfo.Width;
             var screenHeight = DeviceDisplay.MainDisplayInfo.Height;
             var buttonSize = Math.Min(screenWidth, screenHeight) * 0.055;
 
+            //colors
             Color secondaryColor;
             Color primaryColor;
             if (Application.Current is not null)
@@ -41,6 +46,15 @@ namespace NotificatorMobile.Pages
                 secondaryColor = Colors.FloralWhite; //should never happen, but with this app will work anyway
                 primaryColor = Colors.RoyalBlue;
             }
+
+            //status bar
+#pragma warning disable CA1416 //doesn't work on windows and older ios
+            this.Behaviors.Add(new StatusBarBehavior
+            {
+                StatusBarColor = primaryColor,
+                StatusBarStyle = StatusBarStyle.LightContent
+            });
+#pragma warning restore
 
             //content
             Content = new Grid
@@ -65,11 +79,19 @@ namespace NotificatorMobile.Pages
                         {
                             return new Border
                             {
-                                Stroke = secondaryColor,
+                                Stroke = Colors.WhiteSmoke,
                                 StrokeShape = new RoundRectangle { CornerRadius = 10 },
                                 StrokeThickness = 1,
                                 Padding = 5,
-                                BackgroundColor = secondaryColor,
+                                BackgroundColor = Colors.WhiteSmoke,
+                                Margin = new Thickness(0, 5),
+                                //Shadow = new Shadow
+                                //{
+                                //    Brush = Colors.Gray,
+                                //    Radius = 5,
+                                //    Offset = new Microsoft.Maui.Graphics.Point(2, 2),
+                                //    Opacity = 0.5f
+                                //},
                                 Content = new Grid
                                 {
                                     Padding = 10,

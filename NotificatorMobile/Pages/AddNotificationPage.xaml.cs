@@ -1,3 +1,5 @@
+using CommunityToolkit.Maui.Behaviors;
+using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Markup;
 using CommunityToolkit.Maui.Markup.LeftToRight;
 using CommunityToolkit.Mvvm.Messaging;
@@ -19,9 +21,11 @@ public partial class AddNotificationPage : ContentPage
     private readonly AddNotificationViewModel _viewModel;
     public AddNotificationPage(INotificationService notificationService)
 	{
+        //init
         _viewModel = new AddNotificationViewModel(notificationService);
         BindingContext = _viewModel;
 
+        //colors
         Color secondaryColor;
         Color primaryColor;
         if (Application.Current is not null)
@@ -35,14 +39,23 @@ public partial class AddNotificationPage : ContentPage
             primaryColor = Colors.RoyalBlue;
         }
 
+        //status bar
+#pragma warning disable CA1416 //doesn't work on windows and older ios
+        this.Behaviors.Add(new StatusBarBehavior
+        {
+            StatusBarColor = primaryColor,
+            StatusBarStyle = StatusBarStyle.LightContent
+        });
+#pragma warning restore
+
         //content
         Content = new Grid
         {
             RowDefinitions = new RowDefinitionCollection
             {
-                new RowDefinition(new GridLength(12, GridUnitType.Star)),
-                new RowDefinition(new GridLength(76, GridUnitType.Star)),
-                new RowDefinition(new GridLength(12, GridUnitType.Star))
+                new RowDefinition(new GridLength(14, GridUnitType.Star)),
+                new RowDefinition(new GridLength(72, GridUnitType.Star)),
+                new RowDefinition(new GridLength(14, GridUnitType.Star))
             },
             ColumnDefinitions = new ColumnDefinitionCollection
             {
@@ -52,11 +65,18 @@ public partial class AddNotificationPage : ContentPage
             {
                 new Border
                 {
-                    Stroke = secondaryColor,
+                    Stroke = Colors.WhiteSmoke,
                     StrokeShape = new RoundRectangle { CornerRadius = 10 },
                     StrokeThickness = 1,
                     Padding = 5,
-                    BackgroundColor = secondaryColor,
+                    BackgroundColor = Colors.WhiteSmoke,
+                    Shadow = new Shadow
+                    {
+                        Brush = Colors.Gray,
+                        Radius = 5,           
+                        Offset = new Microsoft.Maui.Graphics.Point(2, 2),
+                        Opacity = 0.5f
+                    },
                     Content =
                     new StackLayout
                     {
@@ -99,7 +119,7 @@ public partial class AddNotificationPage : ContentPage
                         {
                             CornerRadius = 50,
                             BackgroundColor = primaryColor
-                        }.Text("Confirm").Bottom().CenterHorizontal()
+                        }.Text("Confirm").Bottom()
                         .DynamicResource(VisualElement.StyleProperty, "ButtonStyle")
                         .Bind(Button.CommandProperty, nameof(_viewModel.ConfirmCommand))
                         }

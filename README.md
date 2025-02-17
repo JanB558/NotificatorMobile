@@ -1,5 +1,5 @@
 # Notificator Mobile
-Create custom notifications on mobile devices.
+Example project - create custom notifications on mobile devices.
 ## Key features
 - create notifications with customizable title and description
 - notifications can be scheduled at specific time and date 
